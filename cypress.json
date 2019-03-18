@@ -1,3 +1,9 @@
 {
-  "projectId": "dmmzad"
+  "projectId": "Sema4",
+  "env":{
+   "Page_Short_Wait" : 3000,
+   "Page_Med_Wait" : 5000,
+   "Page_Long_Wait" : 10000
+  
+  }
 }
