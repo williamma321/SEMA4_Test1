@@ -3,8 +3,7 @@
   "email_Er1": "Contact email address is a required field",
   "email_Er2": "Verify email address is a required field",
   "Name_Er1": "Name is required",
-  "Address_Er1": "Address line 1 is required",
-  "Address_Er2": " ",
-  "Address_Er3": " ",
-  "ZipCode_Er1":   " "
+  "Address_Er1": "Address line 1 is required",  
+  "Address_Er_City": "City is required",
+  "ZipCode_Er1":   "ZIP code is required"
 }
