@@ -26,13 +26,22 @@ describe('Google Store Checkout Form Test', function() {
 	
 	cy.wait(Wait5K)
 	
-	
-	
-	cy.get('content > :nth-child(3)').click()
-	
 	// Cypress not support iframe form
 	//  All call within the check out form will yield by $iframe
 	
+	
+	cy.get('content > :nth-child(3)').click()
+
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+		const $body = $iframe.contents().find('body')
+
+		cy.wrap($body)
+			.find('[data-name=ContactEmailConfirm]')
+			.find('[name=ContactEmailConfirm]').click({force:true})	
+	
+	})
+		
 	
 	// Verify require email address message
 	cy.get('#paymentsParentDivIdIframe').then($iframe => {
@@ -56,10 +65,14 @@ describe('Google Store Checkout Form Test', function() {
 		cy.wrap($body)
 		   .find('[data-name=ContactEmailField]')
 		   .find('[name=ContactEmailField]')
-		   .type(this.profile.t_email)
-		   
+		   .type(this.profile.t_email)		   
+		
+			
 		cy.wrap($body)
-			.find('.b3id-collapsable-container').click({multiple:true})
+			.find('[data-name=RECIPIENT]')
+			.find('[autocomplete=name]')		
+			.click({force:true})
+		
 	 })
 
 	 
@@ -104,8 +117,13 @@ describe('Google Store Checkout Form Test', function() {
 			 .should('have.attr', 'aria-hidden')
 		     .and('equal', 'true')
 	
+		//cy.wrap($body)
+		//	.find('.b3id-collapsable-container').click({multiple:true})	
+		
 		cy.wrap($body)
-			.find('.b3id-collapsable-container').click({multiple:true})	
+			.find('[data-name=RECIPIENT]')
+			.find('[autocomplete=name]')		
+			.click({force:true})
 	
 	  })
 
@@ -175,8 +193,8 @@ describe('Google Store Checkout Form Test', function() {
 			.find('[data-name=ADDRESS_LINE_1]')
 			.find('[autocomplete=off-street-address]')
 			.type(this.profile.t_address1)
-			.type('{downarrow}')
-			.type('{enter}')
+			//.type('{downarrow}')
+			//.type('{enter}')
 		
 		// Need to click on some other editor box to trigger error messages
 		
@@ -276,8 +294,207 @@ describe('Google Store Checkout Form Test', function() {
 			 .and('have.attr', 'aria-hidden')
 		     .and('equal', 'true')	 
 		
-	 })
+		cy.wrap($body)
+			.find('[autocomplete=cc-number]').click({force:true})
+			
 		
+				
+		
+	 })
+	 
+	 // Verify Phone Number field error message shown
+	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+	 	const $body = $iframe.contents().find('body') 		
+		
+		cy.wrap($body)
+			.find('[data-name=PHONE_NUMBER]')
+			.find('.b3-address-edit-error-message')
+			.should('have.text', this.TestVerify.Phone_Er1)
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'false')	 
+		
+		//Type in the phone number 
+		
+		cy.wrap($body)
+			.find('[data-name=PHONE_NUMBER]')
+			.find('[autocomplete=tel]')
+			.type(this.profile.t_Phone,{force:true})
+			.type('{enter}',{force:true})
+			
+	 })
+	 
+	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+	 	const $body = $iframe.contents().find('body') 		
+
+		// Verify Require Phone Number Error message no longer Shown
+		cy.wrap($body)
+			.find('[data-name=PHONE_NUMBER]')
+			.find('.b3-address-edit-error-message')
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'true')	 
+	
+		// Click around all Credit Card Editor fields
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-name]').click({force:true})
+				
+		cy.wrap($body)
+			.find('[autocomplete=cc-number]').click({force:true})	
+
+		cy.wrap($body)
+			.find('[autocomplete=cc-exp-month]')
+			.click({force:true})	
+			
+		cy.wrap($body)
+			.find('[autocomplete=cc-exp-year]')
+			.click({force:true})	
+			
+		cy.wrap($body)
+			.find('[autocomplete=cc-csc]')
+			.click({force:true})	
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-name]')	
+			.click({force:true})			
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-number]').click({force:true})			
+	
+		cy.wrap($body)
+			.find('[autocomplete=cc-exp-month]')
+			.click({force:true})
+	
+	
+	 })
+	 
+	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+	 	const $body = $iframe.contents().find('body') 		
+		
+		//Verify Credit Card Number and Name Error Message shown
+		
+		cy.wrap($body)
+			.find('.b3id-card-number-input-error')
+			.should('have.text', this.TestVerify.Crtd_Crd_Er1)
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'false')	
+			 
+		cy.wrap($body)
+			.find('.b3id-cardholder-name-input-error')
+			.should('have.text', this.TestVerify.Crtd_Name_Er1)
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'false')		 
+		
+		cy.wrap($body)
+			.find('.b3id-card-month-input-error')
+			.should('have.text', this.TestVerify.Crtd_MM_Er1)
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'false')		
+
+		cy.wrap($body)
+			.find('.b3id-card-year-input-error')
+			.should('have.text', this.TestVerify.Crtd_YY_Er1)
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'false')					 
+		
+		cy.wrap($body)
+			.find('.b3id-security-code-input-error')
+			.should('have.text', this.TestVerify.Crtd_CSV_Er1)
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'false')					 
+		
+	
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-number]').click({force:true})		
+	
+	 })
+	 
+	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+	 	const $body = $iframe.contents().find('body') 		
+		
+		const chk_Name_Address_Phone = this.profile.t_email + this.profile.t_name + ', ' + this.profile.t_address1 + ', ' + this.profile.t_address2 + ', ' + this.profile.t_City + ', ' + this.profile.t_addressSt_Shrt + ', ' + this.profile.t_zipcode + ', ' + this.profile.t_Phone
+		
+		
+		//After phone number typed in the form, verify the collaped form has the correct address 
+		cy.wrap($body)
+			//.find('[data-title=Name]')
+			.find('.b3id-collapsing-form-summary-text')
+			.should('have.text', chk_Name_Address_Phone)
+
+		// Type in Credit Card information
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-number]')
+			.type(this.profile.t_Credit_Crd_N,{force:true})
+			.type('{enter}',{force:true})
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-exp-month]')
+			.type(this.profile.t_Crd_data_M,{force:true})
+			
+		cy.wrap($body)
+			.find('[autocomplete=cc-exp-year]')
+			.type(this.profile.t_Crd_data_YY,{force:true})
+			
+		cy.wrap($body)
+			.find('[autocomplete=cc-csc]')
+			.type(this.profile.t_Crd_data_CVC,{force:true})
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-name]')
+			.type(this.profile.t_name,{force:true})
+		
+		cy.wrap($body)
+			.find('[autocomplete=cc-number]').click({force:true})			
+		
+	 })
+	 
+	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+	 	const $body = $iframe.contents().find('body') 	
+	 
+	 // Since I am not using a valid credit card, not verify credit card number error message
+		//.find('.b3id-card-number-input-error')
+			// .and('have.attr', 'aria-hidden')
+		    // .and('equal', 'true')	
+	 
+	 //Verify Credit Card Name Error no longer Shown
+		cy.wrap($body)
+			.find('.b3id-cardholder-name-input-error')			
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'true')	
+	
+	// Verify all other Credit Card Information Error message no longer shown
+	
+		cy.wrap($body)
+			.find('.b3id-card-month-input-error')
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'true')		
+
+		cy.wrap($body)
+			.find('.b3id-card-year-input-error')
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'true')					 
+		
+		cy.wrap($body)
+			.find('.b3id-security-code-input-error')
+			 .and('have.attr', 'aria-hidden')
+		     .and('equal', 'true')				 
+
+	// Click Save Changes button
+
+	 cy.wrap($body)
+			.find('[data-button-type=2]')
+			.find('.goog-inline-block.jfk-button.jfk-button-action.b3-button.b3id-button.b3-ripple-container.b3-primary-button')
+			.should('have.text', this.TestVerify.Service_Label + this.TestVerify.SaveButton_Label)
+			.click({multiple:true,force:true})
+			 
+	 })
+	
   })
 })
 
