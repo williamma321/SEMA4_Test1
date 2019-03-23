@@ -1,10 +1,16 @@
 {
   "id": 1,
-  "t_name": "Jane",
+  "t_name": "Jane Node",
   "t_email": "jane@example.com",
   "t_address1": "333 Ludlow Street",
   "t_address2": "South tower 3rd floor",
   "t_City":    "Stamford",
   "t_addressSt": "Conncticut",
-  "t_zipcode":   "06902"
+  "t_addressSt_Shrt": "CT", 
+  "t_zipcode":   "06902",
+  "t_Phone":  "6461234567",
+  "t_Credit_Crd_N" : "54220688523468374",
+  "t_Crd_data_M"   : "02",
+  "t_Crd_data_YY"  : "20",
+  "t_Crd_data_CVC" : "234"
 }
