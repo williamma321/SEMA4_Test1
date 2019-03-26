@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "GooglePhoneBuyPage1TypeSelectBt1": ":nth-child(1) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button",
+  "GooglePhoneBuyPage1TypeSelectXLBt2": ":nth-child(2) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button",
+  "Color": "Black",
+  "Carrier":  "Verizon",
+  "Memory":  "128GB",
+  "Extras":  "Skip"  
+}
