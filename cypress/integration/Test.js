@@ -19,10 +19,9 @@ describe('Google Store Checkout Form Test', function() {
 	
 	cy.get(':nth-child(8) > .nav-link > .highlightable').click()
 
-	cy.wait(Wait3K)
-	
+	cy.wait(Wait3K)	
 		
-	cy.get('div[jscontroller="eoSTdf"] > .button-shadow').click()	
+	cy.get('.cart-button-text').contains('Guest Checkout').click({force:true})		
 	
 	cy.wait(Wait5K)
 	
@@ -32,42 +31,38 @@ describe('Google Store Checkout Form Test', function() {
 	
 	cy.get('content > :nth-child(3)').click()
 
-	cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-		const $body = $iframe.contents().find('body')
-
-		cy.wrap($body)
-			.find('[data-name=ContactEmailConfirm]')
-			.find('[name=ContactEmailConfirm]').click({force:true})	
+	cy.iframeClick('[data-name=ContactEmailConfirm]', '[name=ContactEmailConfirm]')
 	
-	})
 		
 	
 	// Verify require email address message
-	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+
+     cy.get('#paymentsParentDivIdIframe').then($iframe => {
 		
-		const $body = $iframe.contents().find('body')
+		
+		cy.iframeVerifyMsg(this.TestVerify.email_Er1,'[data-name=ContactEmailField]','.b3id-input-error')
+		/* const $body = $iframe.contents().find('body')
 
 		cy.wrap($body)
 		  .find('[data-name=ContactEmailField]')
 		  .find('.b3id-input-error')
 		  .should('have.text', this.TestVerify.email_Er1)
 		  .and('have.attr', 'aria-hidden')
-		  .and('equal', 'false')
+		  .and('equal', 'false') */
 		 
-		 })
+		 }) 	
+		 		 
+		
 	
 	// Type in Email Address
+	
+	
+	
      cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		 
-		const $body = $iframe.contents().find('body') 
-		
-		cy.wrap($body)
-		   .find('[data-name=ContactEmailField]')
-		   .find('[name=ContactEmailField]')
-		   .type(this.profile.t_email)		   
-		
+	
+	cy.iframeTypeIn(this.profile.t_email,'[data-name=ContactEmailField]','[name=ContactEmailField]')
 			
+			const $body = $iframe.contents().find('body') 
 		cy.wrap($body)
 			.find('[data-name=RECIPIENT]')
 			.find('[autocomplete=name]')		
