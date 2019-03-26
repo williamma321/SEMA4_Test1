@@ -10,11 +10,11 @@ describe('Setup Shopping Cart Test', function()
 	 const Wait10K = Cypress.env("Page_Long_Wait")
 	 const TestSite = Cypress.env("TestURL")
 	 
-	 cy.fixture("Shopitems.json").as("Shopitem")
+	 cy.fixture("Shopitems.json").as("Shopitem")	 
 
 	 cy.visit(TestSite)		
 	
-	
+	//  The test setup will not add a new item if there is at least 1 item already in the shopping cart
 	cy.get('[data-item-count=0]').then(($item_Count) =>{
 	
 	const my_Val = $item_Count.text()
@@ -33,35 +33,26 @@ describe('Setup Shopping Cart Test', function()
 	cy.get('.text-container')
 	.contains(this.Shopitem.name).click()	 
 	
-	cy.wait(Wait3K)
+	cy.wait(Wait3K)	
 	
-	
-	cy.get('.pdp-bar-button-wrap').contains('Buy').click()
-	//cy.contains('Buy now', { timeout: Wait10K }).click() 
+	cy.get('.pdp-bar-button-wrap').contains('Buy').click({force:true})	
 		
 	cy.wait(Wait5K)
 	
-	cy.get('.mqn-lobby__card__buttons',{timeout :Wait10K})
-	.contains('Select').click()
+	cy.SelectPixelType(this.Shopitem.Phtype)	
 	
 	cy.wait(Wait3K)
-
-    cy.get(':nth-child(2) > .mqn-h-cards__card__inner > .mqn-h-cards__card__meta > .mqn-h-cards__card__headline')
-	.contains(this.Shopitem.Carrier).click()
+    	
+	cy.SelectCarrerType(this.Shopitem.Carrier)
 	
 	cy.wait(Wait3K)
 	
-	//cy.pause()
-	
-	cy.get(':nth-child(1) > .mqn-lobby-swatch__card__inner > .mqn-lobby-swatch__card__meta > .mqn-lobby-swatch__card__buttons > .mqn-button').contains('Select').click()
-	
-	//cy.get('.mqn-button')
-	//.contains('Select').click()
+	cy.SelectPhColor(this.Shopitem.Color)
 	
 	cy.wait(Wait3K)
 	
-	cy.get(':nth-child(2) > .mqn-cards__card__inner > .mqn-cards__card__meta > .mqn-cards__card__headline')
-	.contains(this.Shopitem.Memory).click()
+	cy.SelectPhStorage(this.Shopitem.Memory)
+	
 	
 	cy.wait(Wait3K)
 	
@@ -70,22 +61,17 @@ describe('Setup Shopping Cart Test', function()
 
 	cy.wait(Wait3K)
 	
-	//cy.contains('Next').click()
-	
 	cy.get('.cta-button-container > .mdc-button')
 	.contains('Add to cart').click()
 	
 	cy.wait(Wait3K)
 	
-	cy.get('[jsaction="JIbuQc:IXVHne"] > .mdc-button')
-	.contains('Go to cart').click()
+	cy.get(':nth-child(8) > .nav-link > .highlightable').click()
 	
-	cy.wait(Wait3K)
+	cy.get('.cart-button-text')
+	 .contains('Guest Checkout')
+	 .click({force:true})	
 	
-	cy.get('div[jscontroller="eoSTdf"] > .button-shadow')
-	.contains('Guest Checkout').click()
-		
-	cy.get('.nav-link > .body-text-4')
 	 
 		}
 		
