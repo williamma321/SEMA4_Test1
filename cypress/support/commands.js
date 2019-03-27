@@ -27,68 +27,179 @@
 // A new custom commands for select the Google Pixel Phone Type  
 
 Cypress.Commands.add("SelectPixelType", (PixelPhtype) => {
-	
- if (PixelPhtype === 'Pixel')
-	{
-		cy.get(':nth-child(1) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button').click()
+
+	const Phone_Types = {
+		Pixel: {
+			P_element: ':nth-child(1) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button'
+		},
+		PixelXL: {
+			P_element: ':nth-child(2) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button'
+		}
+		
+		
 	}
- if (PixelPhtype === 'PixelXL')
-	 
-	 {		 
-		cy.get(':nth-child(2) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button').click() 
-	 }
- 	
+
+	const Phone_T = Phone_Types[PixelPhtype]
+	
+	cy.get(Phone_T.P_element).click()
+	
 })
 
 Cypress.Commands.add("SelectCarrerType", (PhCrtype) => {
-	
- if (PhCrtype === 'Unlocked')
-	{
-		cy.get('.mqn-h-cards__card--selected > .mqn-h-cards__card__inner > .mqn-h-cards__card__meta > .mqn-h-cards__card__headline').click()
+
+	const Phone_CarrierTypes = {
+		Unlocked: {
+			P_element: '.mqn-h-cards__card--selected > .mqn-h-cards__card__inner > .mqn-h-cards__card__meta > .mqn-h-cards__card__headline'
+		},
+		Verizon: {
+			P_element: ':nth-child(2) > .mqn-h-cards__card__inner > .mqn-h-cards__card__meta > .mqn-h-cards__card__headline'
+		},
+		GoogleFi: {
+			P_element: ':nth-child(3) > .mqn-h-cards__card__inner > .mqn-h-cards__card__meta > .mqn-h-cards__card__headline'
+		}
+		
+		
 	}
- if (PhCrtype === 'Verizon')
-	 
-	 {		 
-		cy.get(':nth-child(2) > .mqn-h-cards__card__inner > .mqn-h-cards__card__meta > .mqn-h-cards__card__headline').click()
-	 }
- if (PhCrtype === 'GoogleFi')
- {
-	 cy.get(':nth-child(3) > .mqn-h-cards__card__inner > .mqn-h-cards__card__meta > .mqn-h-cards__card__headline').click()
-	 
- }	 
- 	
+	  const C_type = Phone_CarrierTypes[PhCrtype]
+ 
+		cy.get(C_type.P_element).click()
+	
 })
 
 Cypress.Commands.add("SelectPhColor", (PhCLRType) => {
 	
- if (PhCLRType === 'Black')
+	const Phone_ColorTypes =
 	{
-		cy.get(':nth-child(1) > .mqn-lobby-swatch__card__inner > .mqn-lobby-swatch__card__meta > .mqn-lobby-swatch__card__buttons > .mqn-button').click()
+		Black: {
+			P_element: 	':nth-child(1) > .mqn-lobby-swatch__card__inner > .mqn-lobby-swatch__card__meta > .mqn-lobby-swatch__card__buttons > .mqn-button'		
+		},
+		White: {
+			P_element: ':nth-child(2) > .mqn-lobby-swatch__card__inner > .mqn-lobby-swatch__card__meta > .mqn-lobby-swatch__card__buttons > .mqn-button'			
+		},
+		NotPink:{
+			P_element: ':nth-child(3) > .mqn-lobby-swatch__card__inner > .mqn-lobby-swatch__card__meta > .mqn-lobby-swatch__card__buttons > .mqn-button'
+		}
 		
 	}
- if (PhCLRType === 'White')
-	 
-	 {		 
-		cy.get(':nth-child(2) > .mqn-lobby-swatch__card__inner > .mqn-lobby-swatch__card__meta > .mqn-lobby-swatch__card__buttons > .mqn-button').click()
-	 }
- if (PhCLRType === 'NotPink')
- {
-	 cy.get(':nth-child(3) > .mqn-lobby-swatch__card__inner > .mqn-lobby-swatch__card__meta > .mqn-lobby-swatch__card__buttons > .mqn-button').click()
-	 
- }	 
+	
+	const P_Color = Phone_ColorTypes[PhCLRType]
+		 
+	cy.get(P_Color.P_element).click()	 
+ 	 
  	
 })
 
-Cypress.Commands.add("SelectPhStorage", (PhCLRType) => {
+Cypress.Commands.add("SelectPhStorage", (Phmemsize) => {
 	
- if (PhCLRType === '64GB')
+	const Phone_memorysizes =
 	{
-		cy.get(':nth-child(1) > .mqn-cards__card__inner > .mqn-cards__card__meta > .mqn-cards__card__headline').click()		
+		'64GB': {
+			P_element : ':nth-child(1) > .mqn-cards__card__inner > .mqn-cards__card__meta > .mqn-cards__card__headline'
+		},
+		'128GB':{
+			P_element: ':nth-child(2) > .mqn-cards__card__inner > .mqn-cards__card__meta > .mqn-cards__card__headline'
+		}	
+		
 	}
- if (PhCLRType === '128GB')	 
-	 {	 
-	 
-		cy.get(':nth-child(2) > .mqn-cards__card__inner > .mqn-cards__card__meta > .mqn-cards__card__headline').click()
-	 }
+	
+	const P_memsize = Phone_memorysizes[Phmemsize]
+ 		cy.get(P_memsize.P_element).click()	 
  
 })
+
+
+Cypress.Commands.add("iframeClick", (element1,element2,Is_muti) => {
+	
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+		const $body = $iframe.contents().find('body')
+		
+		if (Is_muti === 'M')
+		{
+			cy.wrap($body)
+			.find(element1)
+			.find(element2).click({force:true,multiple:true})	
+		}
+	
+		else
+		{
+		cy.wrap($body)
+			.find(element1)
+			.find(element2).click({force:true})	
+		}
+	})
+	
+})
+
+Cypress.Commands.add("iframeVerifyMsg", (element1,element2,ErMsg) => {
+
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		 
+		const $body = $iframe.contents().find('body')			
+
+		cy.wrap($body)
+		  .find(element1)
+		  .find(element2)
+		  .should('have.text', ErMsg)
+		  .and('have.attr', 'aria-hidden')
+		  .and('equal', 'false')		 
+		 })
+		 
+})
+
+Cypress.Commands.add("iframeVerifyMsgNotExist", (element1,element2) => {
+
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		 
+		const $body = $iframe.contents().find('body')			
+
+		cy.wrap($body)
+			.find(element1)
+			.find(element2)
+			.and('have.attr', 'aria-hidden')
+		    .and('equal', 'true')	 
+	})
+})
+
+
+Cypress.Commands.add("iframeTypeIn", (Msg,element1,element2,Is_opt) => {
+	
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		 
+	const $body = $iframe.contents().find('body') 	
+	
+	
+	if (Is_opt === 'EMF')
+	{
+		cy.wrap($body)
+		   .find(element1)
+		   .find(element2)
+		   .type(Msg, {force:true})
+			.type('{enter}',{force:true})		   
+	}
+	else 
+	{
+		cy.wrap($body)
+		   .find(element1)
+		   .find(element2)
+		   .type(Msg,{force:true})
+		
+	}
+	
+	
+	})
+})
+	
+
+Cypress.Commands.add("iframeVerifyCpText", (CText,element1) => {
+	
+    cy.get('#paymentsParentDivIdIframe').then($iframe => {		 
+		
+		const $body = $iframe.contents().find('body') 
+		cy.wrap($body)
+			.find(element1)			
+			.should('have.text', CText)
+		
+	})
+
+})	
