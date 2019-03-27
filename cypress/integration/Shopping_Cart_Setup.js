@@ -30,7 +30,9 @@ describe('Setup Shopping Cart Test', function()
 	
 	cy.get('.container-sm-lock')
 	
-	cy.get('.text-container')
+	cy.wait(Wait3K)
+	
+	cy.get(':nth-child(1) > .card-link-target > .card-inner > .text-wrapper > .text-container > .product-text')
 	.contains(this.Shopitem.name).click()	 
 	
 	cy.wait(Wait3K)	

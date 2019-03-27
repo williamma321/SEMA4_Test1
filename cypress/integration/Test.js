@@ -25,275 +25,134 @@ describe('Google Store Checkout Form Test', function() {
 	
 	cy.wait(Wait5K)
 	
+	cy.get('content > :nth-child(3)').click()
+
+	
+
 	// Cypress not support iframe form
 	//  All call within the check out form will yield by $iframe
 	
-	
-	cy.get('content > :nth-child(3)').click()
-
-	cy.iframeClick('[data-name=ContactEmailConfirm]', '[name=ContactEmailConfirm]')
-	
-		
-	
-	// Verify require email address message
-
      cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-		
-		cy.iframeVerifyMsg(this.TestVerify.email_Er1,'[data-name=ContactEmailField]','.b3id-input-error')
-		/* const $body = $iframe.contents().find('body')
-
-		cy.wrap($body)
-		  .find('[data-name=ContactEmailField]')
-		  .find('.b3id-input-error')
-		  .should('have.text', this.TestVerify.email_Er1)
-		  .and('have.attr', 'aria-hidden')
-		  .and('equal', 'false') */
 		 
-		 }) 	
-		 		 
+		cy.iframeClick('[data-name=ContactEmailConfirm]', '[name=ContactEmailConfirm]') 
+	
+		// Verify require email address message
+		cy.iframeVerifyMsg('[data-name=ContactEmailField]','.b3id-input-error',this.TestVerify.email_Er1)		
+	
+		// Type in Email Address	
+		cy.iframeTypeIn(this.profile.t_email,'[data-name=ContactEmailField]','[name=ContactEmailField]')
 		
-	
-	// Type in Email Address
-	
-	
-	
-     cy.get('#paymentsParentDivIdIframe').then($iframe => {
-	
-	cy.iframeTypeIn(this.profile.t_email,'[data-name=ContactEmailField]','[name=ContactEmailField]')
-			
-			const $body = $iframe.contents().find('body') 
-		cy.wrap($body)
-			.find('[data-name=RECIPIENT]')
-			.find('[autocomplete=name]')		
-			.click({force:true})
+		cy.iframeClick('[data-name=RECIPIENT]', '[autocomplete=name]','M')	
 		
-	 })
-
-	 
-	 // Verify require confirm email address error message
-	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		// Verify require confirm email address error message	
 		
-	 	const $body = $iframe.contents().find('body') 
-	 
-		cy.wrap($body)
-			.find('[data-name=ContactEmailConfirm]')
-			.find('.b3id-input-error')
-			.should('have.text', this.TestVerify.email_Er2)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')
+		cy.iframeVerifyMsg('[data-name=ContactEmailConfirm]','.b3id-input-error',this.TestVerify.email_Er2)	
 		
 		// Verify the 1st email address error message no longer existed
 		
-		cy.wrap($body)
-			.find('[data-name=ContactEmailField]')
-			.find('.b3id-input-error')
-			.and('have.attr', 'aria-hidden')
-		    .and('equal', 'true')	 
+		cy.iframeVerifyMsgNotExist('[data-name=ContactEmailField]', '.b3id-input-error')
 		
 		// Type in the confirm email address
 		
-		cy.wrap($body)
-			.find('[data-name=ContactEmailConfirm]')
-			.find('[name=ContactEmailConfirm]')
-			.type(this.profile.t_email)	
-
+		cy.iframeTypeIn(this.profile.t_email,'[data-name=ContactEmailConfirm]','[name=ContactEmailConfirm]')		
 		
-	  })
 	  
-	  //Verify the confirm address error message no longer visibile 
+		//Verify the confirm address error message no longer visibile 
 	
-	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		cy.iframeVerifyMsgNotExist('[data-name=ContactEmailConfirm]', '.b3id-input-error')	
 		
-	 	const $body = $iframe.contents().find('body') 
-		cy.wrap($body)
-			.find('[data-name=ContactEmailConfirm]')
-			.find('.b3id-input-error')	
-			 .should('have.attr', 'aria-hidden')
-		     .and('equal', 'true')
-	
-		//cy.wrap($body)
-		//	.find('.b3id-collapsable-container').click({multiple:true})	
+		cy.iframeClick('[data-name=RECIPIENT]', '[autocomplete=name]')				  
 		
-		cy.wrap($body)
-			.find('[data-name=RECIPIENT]')
-			.find('[autocomplete=name]')		
-			.click({force:true})
-	
-	  })
+		cy.iframeClick('[data-name=ADDRESS_LINE_1]', '[autocomplete=off-street-address]','M')
 
-     // Verify the email form now show the email address and collaped	  
-	cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-	 	const $body = $iframe.contents().find('body') 
-		cy.wrap($body)			
-			.find('.b3-collapsing-form-summary-text')			
-			.should('have.text', this.profile.t_email)
+		// Verify the email form now show the email address and collaped	  
 			
+		cy.iframeVerifyCpText(this.profile.t_email,'.b3-collapsing-form-summary-text')
+		
+	 		
 		// Verify Required Name error message is now shown
 		
-		cy.wrap($body)
-			.find('[data-name=RECIPIENT]')
-			.find('.b3-address-edit-error-message')
-			.should('have.text', this.TestVerify.Name_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')		
+		cy.iframeVerifyMsg('[data-name=RECIPIENT]','.b3-address-edit-error-message',this.TestVerify.Name_Er1)		
 		
 		// Type in the Name
 		
-		cy.wrap($body)
-			.find('[data-name=RECIPIENT]')
-			.find('[autocomplete=name]')
-			//.find('.b3-text-input-container')
-			.type(this.profile.t_name)			
-			
-		cy.wrap($body)
-			.find('[data-name=ADDRESS_LINE_1]')
-			.find('[autocomplete=off-street-address]')
-			.click({force:true})			
-			
-		cy.wrap($body)
-			.find('[data-name=RECIPIENT]')
-			.find('[autocomplete=name]').click()
-			
-	
-	  })
-	  
-	  
-	  
-	  cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		cy.iframeTypeIn(this.profile.t_name,'[data-name=RECIPIENT]','[autocomplete=name]')
 		
-		const $body = $iframe.contents().find('body') 
+		cy.iframeClick('[data-name=ADDRESS_LINE_1]', '[autocomplete=off-street-address]')
+			
+		cy.iframeClick('[data-name=RECIPIENT]', '[autocomplete=name]')			
+	
+	
 		
 		// Verify Required Name error message is no longer shown
 		
-		cy.wrap($body)
-			.find('[data-name=RECIPIENT]')
-			.find('.b3-address-edit-error-message')			
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')	
-		
+		cy.iframeVerifyMsgNotExist('[data-name=RECIPIENT]', '.b3-address-edit-error-message')	
+				
 		// Verify Address line 1 required error message shown		
 	 	
-		cy.wrap($body)
-			.find('[data-name=ADDRESS_LINE_1]')
-			.find('.b3-address-edit-error-message')
-			.should('have.text', this.TestVerify.Address_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')		
-			
-		// Type in the Address line 1	
+		cy.iframeVerifyMsg('[data-name=ADDRESS_LINE_1]','.b3-address-edit-error-message',this.TestVerify.Address_Er1)	
 		
-		cy.wrap($body)
-			.find('[data-name=ADDRESS_LINE_1]')
-			.find('[autocomplete=off-street-address]')
-			.type(this.profile.t_address1)
-			//.type('{downarrow}')
-			//.type('{enter}')
+		// Type in the Address line 1	
+		cy.iframeTypeIn(this.profile.t_address1,'[data-name=ADDRESS_LINE_1]','[autocomplete=off-street-address]')
 		
 		// Need to click on some other editor box to trigger error messages
 		
-		cy.wrap($body)
-			.find('[data-name=POSTAL_CODE]')
-			.find('[autocomplete=postal-code]').click({force:true})	
+		cy.iframeClick('[data-name=POSTAL_CODE]', '[autocomplete=postal-code]','M')
 		
-		cy.wrap($body)
-			.find('[data-name=LOCALITY]')
-			.find('[autocomplete=address-level2]').click({force:true})
+		cy.iframeClick('[data-name=LOCALITY]', '[autocomplete=address-level2]','M')
 		
-		cy.wrap($body)
-			.find('[data-name=ADDRESS_LINE_2]')
-			.find('[autocomplete=address-line2]').click({force:true})
+		cy.iframeClick('[data-name=ADDRESS_LINE_2]', '[autocomplete=address-line2]','M')		
 		
-		cy.wrap($body)		
-			.find('[data-name=PHONE_NUMBER]')
-			.find('[autocomplete=tel]').click({force:true})
-	
-	  })
-	
-	 // Verify Error message for required City and Zip code shown
-	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
 		
-		const $body = $iframe.contents().find('body') 
 		// Verify Address line 1 required error message no longer shown		
-	 	
-		cy.wrap($body)
-			.find('[data-name=ADDRESS_LINE_1]')
-			.find('.b3-address-edit-error-message')			
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')		
+	 	cy.iframeVerifyMsgNotExist('[data-name=ADDRESS_LINE_1]', '.b3-address-edit-error-message')		
+			
+		// Verify Error message for required City and Zip code shown	
+		
+		//cy.iframeClick('[data-name=POSTAL_CODE]', '[autocomplete=postal-code]','M')
+		
+		//cy.iframeClick('[data-name=LOCALITY]', '[autocomplete=address-level2]','M')
+		
+		//cy.iframeClick('[data-name=PHONE_NUMBER]', '[autocomplete=tel]','M')
 		
 		// Verify Require City Error message shown
-		cy.wrap($body)
-			.find('[data-name=LOCALITY]')
-			.find('.b3-address-edit-error-message')
-			.should('have.text', this.TestVerify.Address_Er_City)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')
-
+		
+		cy.iframeVerifyMsg('[data-name=LOCALITY]','.b3-address-edit-error-message',this.TestVerify.Address_Er_City)	
+				
 		// Verify Require ZipCode Error message shown	 
-		cy.wrap($body)
-			.find('[data-name=POSTAL_CODE]')
-			.find('.b3-address-edit-error-message')
-			.should('have.text', this.TestVerify.ZipCode_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')	 
+		cy.iframeVerifyMsg('[data-name=POSTAL_CODE]','.b3-address-edit-error-message',this.TestVerify.ZipCode_Er1)	
+		
+		cy.iframeTypeIn(this.profile.t_City,'[data-name=LOCALITY]','[autocomplete=address-level2]')
+		
+		cy.iframeTypeIn(this.profile.t_zipcode,'[data-name=POSTAL_CODE]','[autocomplete=postal-code]')		
 		
 		// Type in the full address and select the state
+		cy.iframeClick('[data-name=LOCALITY]', '[autocomplete=address-level2]')
 		
-		cy.wrap($body)
-			.find('[data-name=ADDRESS_LINE_2]')
-			.find('[autocomplete=address-line2]').click({force:true})
-			.type(this.profile.t_address2)
+		cy.iframeTypeIn(this.profile.t_address2,'[data-name=ADDRESS_LINE_2]','[autocomplete=address-line2]')	
 		
 		
-		cy.wrap($body)
-			.find('[data-name=LOCALITY]')
-			.find('[autocomplete=address-level2]').click({force:true})
-			.type(this.profile.t_City)
-			
-		cy.wrap($body)
-			.find('[data-name=POSTAL_CODE]')
-			.find('[autocomplete=postal-code]').click({force:true})	
-			.type(this.profile.t_zipcode)
-		
-		cy.wrap($body)
-			.find('[data-name=ADMIN_AREA]')
-			.find('.goog-flat-menu-button-dropdown').click({force:true})
-			
-		
-		cy.wrap($body)
-			.find('[data-name=ADMIN_AREA]')
-			.find('.goog-flat-menu-button-open')
-			.type(this.profile.t_addressSt,{force:true})
-			.type('{enter}',{force:true})
+	})
 	
-	 })
-	 
-	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
 		
-	 	const $body = $iframe.contents().find('body') 		
+		const $body = $iframe.contents().find('body') 
+		
+		cy.iframeClick('[data-name=ADMIN_AREA]', '.goog-flat-menu-button-dropdown')
+		
+		cy.iframeTypeIn(this.profile.t_addressSt,'[data-name=ADMIN_AREA]','.goog-flat-menu-button-open','EMF')
+		
 		
 		// Verify Require City Error message no longer shown
 	 	
-		cy.wrap($body)
-			.find('[data-name=LOCALITY]')
-			.find('.b3-address-edit-error-message')			
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')
-
+		cy.iframeVerifyMsgNotExist('[data-name=LOCALITY]', '.b3-address-edit-error-message')				
+					
 		// Verify Require ZipCode Error message no longer shown	 
-		cy.wrap($body)
-			.find('[data-name=POSTAL_CODE]')
-			.find('.b3-address-edit-error-message')			
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')	 
+		
+		cy.iframeVerifyMsgNotExist('[data-name=POSTAL_CODE]', '.b3-address-edit-error-message')				
 		
 		cy.wrap($body)
 			.find('[autocomplete=cc-number]').click({force:true})
-			
-		
-				
 		
 	 })
 	 
@@ -302,20 +161,11 @@ describe('Google Store Checkout Form Test', function() {
 		
 	 	const $body = $iframe.contents().find('body') 		
 		
-		cy.wrap($body)
-			.find('[data-name=PHONE_NUMBER]')
-			.find('.b3-address-edit-error-message')
-			.should('have.text', this.TestVerify.Phone_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')	 
+		cy.iframeVerifyMsg('[data-name=PHONE_NUMBER]','.b3-address-edit-error-message',this.TestVerify.Phone_Er1)	
 		
 		//Type in the phone number 
 		
-		cy.wrap($body)
-			.find('[data-name=PHONE_NUMBER]')
-			.find('[autocomplete=tel]')
-			.type(this.profile.t_Phone,{force:true})
-			.type('{enter}',{force:true})
+		cy.iframeTypeIn(this.profile.t_Phone,'[data-name=PHONE_NUMBER]','[autocomplete=tel]','EMF')		
 			
 	 })
 	 
