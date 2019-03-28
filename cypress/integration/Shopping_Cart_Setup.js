@@ -10,7 +10,7 @@ describe('Setup Shopping Cart Test', function()
 	 const Wait10K = Cypress.env("Page_Long_Wait")
 	 const TestSite = Cypress.env("TestURL")
 	 
-	 cy.fixture("Shopitems.json").as("Shopitem")	 
+	 cy.fixture('Shopitems.json').as('Shopitem')	 
 
 	 cy.visit(TestSite)		
 	
@@ -26,24 +26,24 @@ describe('Setup Shopping Cart Test', function()
 	
 	cy.get('.header-search-icon > .highlightable > svg').click()
 		 
-	cy.get('.quantumWizAutocompleteInputText').type(this.Shopitem.name+"{ENTER}")
+	cy.get('.quantumWizAutocompleteInputText').type(this.Shopitem.name+"{ENTER}",{force:true})
 	
 	cy.get('.container-sm-lock')
 	
-	cy.wait(Wait3K)
+	cy.wait(Wait5K)
 	
 	cy.get(':nth-child(1) > .card-link-target > .card-inner > .text-wrapper > .text-container > .product-text')
-	.contains(this.Shopitem.name).click()	 
+	.contains(this.Shopitem.name).click({force:true})	 
 	
-	cy.wait(Wait3K)	
+	cy.wait(Wait5K)	
 	
-	cy.get('.pdp-bar-button-wrap').contains('Buy').click({force:true})	
+	cy.get('.price-and-button-container > .button-wrap > div > .button > .button-text').contains('Buy').click()
 		
 	cy.wait(Wait5K)
 	
 	cy.SelectPixelType(this.Shopitem.Phtype)	
 	
-	cy.wait(Wait3K)
+	cy.wait(Wait5K)
     	
 	cy.SelectCarrerType(this.Shopitem.Carrier)
 	
