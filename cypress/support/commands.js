@@ -26,6 +26,7 @@
 
 // A new custom commands for select the Google Pixel Phone Type  
 
+
 Cypress.Commands.add("SelectPixelType", (PixelPhtype) => {
 
 	const Phone_Types = {
