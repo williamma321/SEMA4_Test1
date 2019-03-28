@@ -131,20 +131,56 @@ Cypress.Commands.add("iframeClick", (element1,element2,Is_muti) => {
 	
 })
 
+Cypress.Commands.add("iframeClick1e", (element1,Is_muti) => {
+	
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		
+		const $body = $iframe.contents().find('body')
+		
+		if (Is_muti === 'M')
+		{
+			cy.wrap($body)
+			.find(element1).click({force:true,multiple:true})	
+		}
+	
+		else
+		{
+		cy.wrap($body)
+			.find(element1).click({force:true})	
+		}
+	})
+	
+})
+
+
 Cypress.Commands.add("iframeVerifyMsg", (element1,element2,ErMsg) => {
 
 	cy.get('#paymentsParentDivIdIframe').then($iframe => {
 		 
-		const $body = $iframe.contents().find('body')			
+		const $body = $iframe.contents().find('body')	
 
+		if (element2 === 'NO_EL')
+		{
+		cy.wrap($body)
+		  .find(element1)		
+		  .should('have.text', ErMsg)
+		  .and('have.attr', 'aria-hidden')
+		  .and('equal', 'false')		 
+		 
+		}
+		else
+		{
 		cy.wrap($body)
 		  .find(element1)
 		  .find(element2)
 		  .should('have.text', ErMsg)
 		  .and('have.attr', 'aria-hidden')
 		  .and('equal', 'false')		 
-		 })
-		 
+			
+		}
+		
+		})
+	
 })
 
 Cypress.Commands.add("iframeVerifyMsgNotExist", (element1,element2) => {
@@ -152,12 +188,23 @@ Cypress.Commands.add("iframeVerifyMsgNotExist", (element1,element2) => {
 	cy.get('#paymentsParentDivIdIframe').then($iframe => {
 		 
 		const $body = $iframe.contents().find('body')			
-
+		
+		if (element2 === 'NO_EL')
+		{
 		cy.wrap($body)
-			.find(element1)
-			.find(element2)
+			.find(element1)			
 			.and('have.attr', 'aria-hidden')
 		    .and('equal', 'true')	 
+		}
+		else
+		{
+			cy.wrap($body)
+			.find(element1)			
+			.find(element2)			
+			.and('have.attr', 'aria-hidden')
+		    .and('equal', 'true')	 
+			
+		}
 	})
 })
 
@@ -190,7 +237,34 @@ Cypress.Commands.add("iframeTypeIn", (Msg,element1,element2,Is_opt) => {
 	})
 })
 	
-
+Cypress.Commands.add("iframeTypeIn1e", (Msg,element1,Is_opt) => {
+	
+	cy.get('#paymentsParentDivIdIframe').then($iframe => {
+		 
+	const $body = $iframe.contents().find('body') 	
+	
+	
+	if (Is_opt === 'EMF')
+	{
+		cy.wrap($body)
+		   .find(element1)		   
+		   .type(Msg, {force:true})
+			.type('{enter}',{force:true})		   
+	}
+	else 
+	{
+		cy.wrap($body)
+		   .find(element1)		   
+		   .type(Msg,{force:true})
+		
+	}
+	
+	
+	})
+})
+	
+	
+	
 Cypress.Commands.add("iframeVerifyCpText", (CText,element1) => {
 	
     cy.get('#paymentsParentDivIdIframe').then($iframe => {		 
