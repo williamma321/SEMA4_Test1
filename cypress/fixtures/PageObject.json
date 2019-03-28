@@ -1,9 +1,15 @@
 {
-  "id": 1,
-  "GooglePhoneBuyPage1TypeSelectBt1": ":nth-child(1) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button",
-  "GooglePhoneBuyPage1TypeSelectXLBt2": ":nth-child(2) > .mqn-lobby__card__inner > .mqn-lobby__card__meta > .mqn-lobby__card__buttons > .mqn-button",
-  "Color": "Black",
-  "Carrier":  "Verizon",
-  "Memory":  "128GB",
-  "Extras":  "Skip"  
+  "SearchIconBt": ".header-search-icon > .highlightable > svg",
+  "SearchItemEditor_Box" : ".quantumWizAutocompleteInputText",
+  "SearchItemResult_Container" : ".container-sm-lock",
+  "Search_Result_Wrap" : ":nth-child(1) > .card-link-target > .card-inner > .text-wrapper > .text-container > .product-text",
+  "Buy_Now_top_Bar" : ".price-and-button-container > .button-wrap > div > .button > .button-text",
+  "TopBuy_Text" : "Buy",
+  "Service_SelectPage_SkipLink" : ".mqn-headline__button > .mqn-button",
+  "Service_Skip_Text" : "Skip",
+  "ConfirmOrderPage_AddToCart" : ".cta-button-container > .mdc-button",
+  "AddToCart_Text" : "Add to cart",
+  "Assessories_Page_AddToCartBt" : ":nth-child(8) > .nav-link > .highlightable",
+  "CheckoutConfirmTxt" : ".cart-button-text",
+  "Guest_Checkout_Txt" : "Guest Checkout"  
 }

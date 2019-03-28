@@ -1,5 +1,6 @@
 {
   "Name": "Google Store Checkout Form",  
+  "iframeParentID" : "#paymentsParentDivIdIframe",
   "email_add_editor_Box": 
 	{
 		"E1" : "[data-name=ContactEmailField]",
