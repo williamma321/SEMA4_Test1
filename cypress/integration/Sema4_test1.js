@@ -9,6 +9,7 @@ describe('Sema4 Test 1', function() {
 		cy.fixture("profile.json").as("profile")
 		cy.fixture("Verify.json").as("TestVerify")
 		cy.fixture("CheckoutFormPgObj.json").as("PageObject")
+		cy.fixture("PageObject.json").as("ShopPageObject")
 		
 	})		
 
@@ -20,6 +21,7 @@ describe('Sema4 Test 1', function() {
   it('Setup Google Store Shopping Cart', function() {
 	
 	// Setup the environment variables  	
+	 const Wait1K = Cypress.env('Page_Shorter_Wait')
 	 const Wait3K = Cypress.env('Page_Short_Wait')
 	 const Wait5K = Cypress.env('Page_Med_Wait')
 	 const Wait10K = Cypress.env('Page_Long_Wait')
@@ -27,20 +29,19 @@ describe('Sema4 Test 1', function() {
 
     cy.visit(TestSite)		
 	
-	cy.get('.header-search-icon > .highlightable > svg').click()
+	cy.get(this.ShopPageObject.SearchIconBt).click()
 		 
-	cy.get('.quantumWizAutocompleteInputText').type(this.Shopitem.name+"{ENTER}",{force:true})
+	cy.get(this.ShopPageObject.SearchItemEditor_Box).type(this.Shopitem.name+"{ENTER}",{force:true})
 	
-	cy.get('.container-sm-lock')
+	cy.get(this.ShopPageObject.SearchItemResult_Container)
 	
 	cy.wait(Wait5K)
 	
-	cy.get(':nth-child(1) > .card-link-target > .card-inner > .text-wrapper > .text-container > .product-text')
-	.contains(this.Shopitem.name).click({force:true})	 
+	cy.get(this.ShopPageObject.Search_Result_Wrap).contains(this.Shopitem.name).click({force:true})	 
 	
 	cy.wait(Wait5K)	
 	
-	cy.get('.price-and-button-container > .button-wrap > div > .button > .button-text',{timeout:10000}).contains('Buy').click()
+	cy.get(this.ShopPageObject.Buy_Now_top_Bar,{timeout:Wait10K}).contains(this.ShopPageObject.TopBuy_Text).click()
 		
 	cy.wait(Wait5K)
 	
@@ -60,20 +61,20 @@ describe('Sema4 Test 1', function() {
 	
 	cy.wait(Wait3K)
 	
-	cy.get('.mqn-headline__button > .mqn-button')
-	.contains('Skip').click()
+	cy.get(this.ShopPageObject.Service_SelectPage_SkipLink)
+	.contains(this.ShopPageObject.Service_Skip_Text).click()
 
 	cy.wait(Wait3K)
 	
-	cy.get('.cta-button-container > .mdc-button')
-	.contains('Add to cart').click()
+	cy.get(this.ShopPageObject.ConfirmOrderPage_AddToCart)
+	.contains(this.ShopPageObject.AddToCart_Text).click()
 	
 	cy.wait(Wait3K)
 	
-	cy.get(':nth-child(8) > .nav-link > .highlightable').click()
+	cy.get(this.ShopPageObject.Assessories_Page_AddToCartBt).click()
 	
-	cy.get('.cart-button-text')
-	 .contains('Guest Checkout')
+	cy.get(this.ShopPageObject.CheckoutConfirmTxt)
+	 .contains(this.ShopPageObject.Guest_Checkout_Txt)
 	 .click({force:true})		 
 	
 	cy.wait(Wait5K)
@@ -82,11 +83,15 @@ describe('Sema4 Test 1', function() {
 	// Cypress not support iframe form
 	//  All call within the check out form will yield by $iframe
 	
-     cy.get('#paymentsParentDivIdIframe').then($iframe => {	 
+     cy.get(this.PageObject.iframeParentID).then($iframe => {	 
 		
 		 
 		// Click on Verify email Address editor box to enable error message
 		cy.iframeClick(this.PageObject.Confirm_email_add_editor_Box.E1, this.PageObject.Confirm_email_add_editor_Box.E2) 
+		
+		cy.wait(Wait1K)
+		
+		cy.iframeClick(this.PageObject.Name_editor_Box.E1, this.PageObject.Name_editor_Box.E2,'M')
 	
 		// Verify require email address message
 		cy.iframeVerifyMsg(this.PageObject.email_add_editor_ErrMsg.E1,this.PageObject.email_add_editor_ErrMsg.E2,this.TestVerify.email_Er1)		
@@ -150,7 +155,11 @@ describe('Sema4 Test 1', function() {
 		
 		cy.iframeClick(this.PageObject.ZipCode_Editor_Box.E1,this.PageObject.ZipCode_Editor_Box.E2,'M')
 		
+		cy.wait(Wait1K)
+		
 		cy.iframeClick(this.PageObject.City_Editor_Box.E1,this.PageObject.City_Editor_Box.E2,'M')
+		
+		cy.wait(Wait1K)
 		
 		cy.iframeClick(this.PageObject.Addrs_Line2_Editor_Box.E1,this.PageObject.Addrs_Line2_Editor_Box.E2,'M')	
 		
@@ -211,13 +220,15 @@ describe('Sema4 Test 1', function() {
 		
 		cy.iframeClick1e(this.PageObject.CCNum_Editor_Box.E1)		
 		
-		cy.wait(Wait3K)
+		cy.wait(Wait1K)
 				
 		cy.iframeClick1e(this.PageObject.CC_MM_Editor_Box.E1)	
 		
 		cy.wait(Wait3K)
 
 		cy.iframeClick1e(this.PageObject.CC_YY_Editor_Box.E1)				
+		
+		cy.wait(Wait3K)
 		
 		cy.iframeClick1e(this.PageObject.CC_CVC_Editor_Box.E1)				
 		
@@ -245,7 +256,7 @@ describe('Sema4 Test 1', function() {
 		
 	 })
 	 
-	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
+	 cy.get(this.PageObject.iframeParentID).then($iframe => {
 		
 	 	const $body = $iframe.contents().find('body') 		
 		
