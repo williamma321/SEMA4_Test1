@@ -14,6 +14,7 @@ describe('Google Store Checkout Form Test', function() {
 	 
 	 cy.fixture("profile.json").as("profile")
 	 cy.fixture("Verify.json").as("TestVerify")
+	 cy.fixture("CheckoutFormPgObj.json").as("PageObject")
 
 	cy.visit(TestSite)		
 	
@@ -25,236 +26,168 @@ describe('Google Store Checkout Form Test', function() {
 	
 	cy.wait(Wait5K)
 	
-	cy.get('content > :nth-child(3)').click()
-
-	
+	cy.get('content > :nth-child(3)').click()	
 
 	// Cypress not support iframe form
 	//  All call within the check out form will yield by $iframe
 	
-     cy.get('#paymentsParentDivIdIframe').then($iframe => {
+     cy.get('#paymentsParentDivIdIframe').then($iframe => {	 
+		
 		 
-		cy.iframeClick('[data-name=ContactEmailConfirm]', '[name=ContactEmailConfirm]') 
+		// Click on Verify email Address editor box to enable error message
+		cy.iframeClick(this.PageObject.Confirm_email_add_editor_Box.E1, this.PageObject.Confirm_email_add_editor_Box.E2) 
 	
 		// Verify require email address message
-		cy.iframeVerifyMsg('[data-name=ContactEmailField]','.b3id-input-error',this.TestVerify.email_Er1)		
+		cy.iframeVerifyMsg(this.PageObject.email_add_editor_ErrMsg.E1,this.PageObject.email_add_editor_ErrMsg.E2,this.TestVerify.email_Er1)		
 	
 		// Type in Email Address	
-		cy.iframeTypeIn(this.profile.t_email,'[data-name=ContactEmailField]','[name=ContactEmailField]')
+		cy.iframeTypeIn(this.profile.t_email,this.PageObject.email_add_editor_Box.E1,this.PageObject.email_add_editor_Box.E2)
 		
-		cy.iframeClick('[data-name=RECIPIENT]', '[autocomplete=name]','M')	
+		cy.iframeClick(this.PageObject.Name_editor_Box.E1, this.PageObject.Name_editor_Box.E2,'M')	
 		
 		// Verify require confirm email address error message	
 		
-		cy.iframeVerifyMsg('[data-name=ContactEmailConfirm]','.b3id-input-error',this.TestVerify.email_Er2)	
+		cy.iframeVerifyMsg(this.PageObject.Confirm_email_add_editor_ErrMsg.E1,this.PageObject.Confirm_email_add_editor_ErrMsg.E2,this.TestVerify.email_Er2)	
 		
 		// Verify the 1st email address error message no longer existed
 		
-		cy.iframeVerifyMsgNotExist('[data-name=ContactEmailField]', '.b3id-input-error')
+		cy.iframeVerifyMsgNotExist(this.PageObject.email_add_editor_ErrMsg.E1,this.PageObject.email_add_editor_ErrMsg.E2)
 		
 		// Type in the confirm email address
 		
-		cy.iframeTypeIn(this.profile.t_email,'[data-name=ContactEmailConfirm]','[name=ContactEmailConfirm]')		
+		cy.iframeTypeIn(this.profile.t_email,this.PageObject.Confirm_email_add_editor_Box.E1, this.PageObject.Confirm_email_add_editor_Box.E2)		
 		
 	  
 		//Verify the confirm address error message no longer visibile 
 	
-		cy.iframeVerifyMsgNotExist('[data-name=ContactEmailConfirm]', '.b3id-input-error')	
+		cy.iframeVerifyMsgNotExist(this.PageObject.email_add_editor_ErrMsg.E1, this.PageObject.email_add_editor_ErrMsg.E2)	
 		
-		cy.iframeClick('[data-name=RECIPIENT]', '[autocomplete=name]')				  
+		cy.iframeClick(this.PageObject.Name_editor_Box.E1, this.PageObject.Name_editor_Box.E2)	
 		
-		cy.iframeClick('[data-name=ADDRESS_LINE_1]', '[autocomplete=off-street-address]','M')
+		cy.iframeClick(this.PageObject.Addrs_Line1_Editor_Box.E1, this.PageObject.Addrs_Line1_Editor_Box.E2,'M')
 
 		// Verify the email form now show the email address and collaped	  
 			
-		cy.iframeVerifyCpText(this.profile.t_email,'.b3-collapsing-form-summary-text')
+		cy.iframeVerifyCpText(this.profile.t_email,this.PageObject.Email_completed_Summary_form.E1)
 		
 	 		
 		// Verify Required Name error message is now shown
 		
-		cy.iframeVerifyMsg('[data-name=RECIPIENT]','.b3-address-edit-error-message',this.TestVerify.Name_Er1)		
+		cy.iframeVerifyMsg(this.PageObject.Name_editor_ErrMsg.E1,this.PageObject.Name_editor_ErrMsg.E2,this.TestVerify.Name_Er1)		
 		
 		// Type in the Name
 		
-		cy.iframeTypeIn(this.profile.t_name,'[data-name=RECIPIENT]','[autocomplete=name]')
+		cy.iframeTypeIn(this.profile.t_name,this.PageObject.Name_editor_Box.E1,this.PageObject.Name_editor_Box.E2)
 		
-		cy.iframeClick('[data-name=ADDRESS_LINE_1]', '[autocomplete=off-street-address]')
+		cy.iframeClick(this.PageObject.Addrs_Line1_Editor_Box.E1, this.PageObject.Addrs_Line1_Editor_Box.E2)
 			
-		cy.iframeClick('[data-name=RECIPIENT]', '[autocomplete=name]')			
-	
-	
+		cy.iframeClick(this.PageObject.Name_editor_Box.E1, this.PageObject.Name_editor_Box.E2)
+		
 		
 		// Verify Required Name error message is no longer shown
 		
-		cy.iframeVerifyMsgNotExist('[data-name=RECIPIENT]', '.b3-address-edit-error-message')	
+		cy.iframeVerifyMsgNotExist(this.PageObject.Name_editor_ErrMsg.E1, this.PageObject.Name_editor_ErrMsg.E2)	
 				
 		// Verify Address line 1 required error message shown		
 	 	
-		cy.iframeVerifyMsg('[data-name=ADDRESS_LINE_1]','.b3-address-edit-error-message',this.TestVerify.Address_Er1)	
+		cy.iframeVerifyMsg(this.PageObject.Addrs_Line1_Editor__ErrMsg.E1,this.PageObject.Addrs_Line1_Editor__ErrMsg.E2,this.TestVerify.Address_Er1)	
 		
 		// Type in the Address line 1	
-		cy.iframeTypeIn(this.profile.t_address1,'[data-name=ADDRESS_LINE_1]','[autocomplete=off-street-address]')
+		cy.iframeTypeIn(this.profile.t_address1,this.PageObject.Addrs_Line1_Editor_Box.E1, this.PageObject.Addrs_Line1_Editor_Box.E2)
 		
 		// Need to click on some other editor box to trigger error messages
 		
-		cy.iframeClick('[data-name=POSTAL_CODE]', '[autocomplete=postal-code]','M')
+		cy.iframeClick(this.PageObject.ZipCode_Editor_Box.E1,this.PageObject.ZipCode_Editor_Box.E2,'M')
 		
-		cy.iframeClick('[data-name=LOCALITY]', '[autocomplete=address-level2]','M')
+		cy.iframeClick(this.PageObject.City_Editor_Box.E1,this.PageObject.City_Editor_Box.E2,'M')
 		
-		cy.iframeClick('[data-name=ADDRESS_LINE_2]', '[autocomplete=address-line2]','M')		
+		cy.iframeClick(this.PageObject.Addrs_Line2_Editor_Box.E1,this.PageObject.Addrs_Line2_Editor_Box.E2,'M')	
 		
 		
 		// Verify Address line 1 required error message no longer shown		
-	 	cy.iframeVerifyMsgNotExist('[data-name=ADDRESS_LINE_1]', '.b3-address-edit-error-message')		
+	 	cy.iframeVerifyMsgNotExist(this.PageObject.Addrs_Line1_Editor__ErrMsg.E1,this.PageObject.Addrs_Line1_Editor__ErrMsg.E2)		
 			
-		// Verify Error message for required City and Zip code shown	
+		// Verify Error message for required City and Zip code shown			
 		
-		//cy.iframeClick('[data-name=POSTAL_CODE]', '[autocomplete=postal-code]','M')
-		
-		//cy.iframeClick('[data-name=LOCALITY]', '[autocomplete=address-level2]','M')
-		
-		//cy.iframeClick('[data-name=PHONE_NUMBER]', '[autocomplete=tel]','M')
 		
 		// Verify Require City Error message shown
 		
-		cy.iframeVerifyMsg('[data-name=LOCALITY]','.b3-address-edit-error-message',this.TestVerify.Address_Er_City)	
+		cy.iframeVerifyMsg(this.PageObject.City_Editor_ErrMsg.E1,this.PageObject.City_Editor_ErrMsg.E2,this.TestVerify.Address_Er_City)	
 				
 		// Verify Require ZipCode Error message shown	 
-		cy.iframeVerifyMsg('[data-name=POSTAL_CODE]','.b3-address-edit-error-message',this.TestVerify.ZipCode_Er1)	
+		cy.iframeVerifyMsg(this.PageObject.ZipCode_Editor_ErrMsg.E1,this.PageObject.ZipCode_Editor_ErrMsg.E2,this.TestVerify.ZipCode_Er1)	
 		
-		cy.iframeTypeIn(this.profile.t_City,'[data-name=LOCALITY]','[autocomplete=address-level2]')
+		cy.iframeTypeIn(this.profile.t_City,this.PageObject.City_Editor_Box.E1,this.PageObject.City_Editor_Box.E2)
 		
-		cy.iframeTypeIn(this.profile.t_zipcode,'[data-name=POSTAL_CODE]','[autocomplete=postal-code]')		
+		cy.iframeTypeIn(this.profile.t_zipcode,this.PageObject.ZipCode_Editor_Box.E1,this.PageObject.ZipCode_Editor_Box.E2)		
 		
 		// Type in the full address and select the state
-		cy.iframeClick('[data-name=LOCALITY]', '[autocomplete=address-level2]')
+		cy.iframeClick(this.PageObject.City_Editor_Box.E1,this.PageObject.City_Editor_Box.E2)
 		
-		cy.iframeTypeIn(this.profile.t_address2,'[data-name=ADDRESS_LINE_2]','[autocomplete=address-line2]')	
+		cy.iframeTypeIn(this.profile.t_address2,this.PageObject.Addrs_Line2_Editor_Box.E1,this.PageObject.Addrs_Line2_Editor_Box.E2)	
 		
+		cy.iframeClick(this.PageObject.State_Drop_Box.E1, this.PageObject.State_Drop_Box.E2)
 		
-	})
-	
-	cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-		const $body = $iframe.contents().find('body') 
-		
-		cy.iframeClick('[data-name=ADMIN_AREA]', '.goog-flat-menu-button-dropdown')
-		
-		cy.iframeTypeIn(this.profile.t_addressSt,'[data-name=ADMIN_AREA]','.goog-flat-menu-button-open','EMF')
+		cy.iframeTypeIn(this.profile.t_addressSt,this.PageObject.State_Drop_Box.E1,this.PageObject.State_Drop_Box.E3,'EMF')
 		
 		
 		// Verify Require City Error message no longer shown
 	 	
-		cy.iframeVerifyMsgNotExist('[data-name=LOCALITY]', '.b3-address-edit-error-message')				
+		cy.iframeVerifyMsgNotExist(this.PageObject.City_Editor_ErrMsg.E1,this.PageObject.City_Editor_ErrMsg.E2)				
 					
 		// Verify Require ZipCode Error message no longer shown	 
 		
-		cy.iframeVerifyMsgNotExist('[data-name=POSTAL_CODE]', '.b3-address-edit-error-message')				
+		cy.iframeVerifyMsgNotExist(this.PageObject.ZipCode_Editor_ErrMsg.E1,this.PageObject.ZipCode_Editor_ErrMsg.E2)				
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-number]').click({force:true})
-		
-	 })
+		cy.iframeClick1e(this.PageObject.CCNum_Editor_Box.E1)			 
 	 
-	 // Verify Phone Number field error message shown
-	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-	 	const $body = $iframe.contents().find('body') 		
-		
-		cy.iframeVerifyMsg('[data-name=PHONE_NUMBER]','.b3-address-edit-error-message',this.TestVerify.Phone_Er1)	
+	 // Verify Phone Number field error message shown 		
+	 		
+		cy.iframeVerifyMsg(this.PageObject.PhoneNum_Editor_ErrMsg.E1,this.PageObject.PhoneNum_Editor_ErrMsg.E2,this.TestVerify.Phone_Er1)	
 		
 		//Type in the phone number 
 		
-		cy.iframeTypeIn(this.profile.t_Phone,'[data-name=PHONE_NUMBER]','[autocomplete=tel]','EMF')		
+		cy.iframeTypeIn(this.profile.t_Phone,this.PageObject.PhoneNum_Editor_Box.E1,this.PageObject.PhoneNum_Editor_Box.E2,'EMF')		
 			
-	 })
-	 
-	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-	 	const $body = $iframe.contents().find('body') 		
+			
 
 		// Verify Require Phone Number Error message no longer Shown
-		cy.wrap($body)
-			.find('[data-name=PHONE_NUMBER]')
-			.find('.b3-address-edit-error-message')
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')	 
-	
+		cy.iframeVerifyMsgNotExist(this.PageObject.PhoneNum_Editor_ErrMsg.E1,this.PageObject.PhoneNum_Editor_ErrMsg.E2)
+		
 		// Click around all Credit Card Editor fields
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-name]').click({force:true})
+		cy.iframeClick1e(this.PageObject.CC_Name_Editor_Box.E1)		
+		
+		cy.iframeClick1e(this.PageObject.CCNum_Editor_Box.E1)		
 				
-		cy.wrap($body)
-			.find('[autocomplete=cc-number]').click({force:true})	
+		cy.iframeClick1e(this.PageObject.CC_MM_Editor_Box.E1)	
 
-		cy.wrap($body)
-			.find('[autocomplete=cc-exp-month]')
-			.click({force:true})	
-			
-		cy.wrap($body)
-			.find('[autocomplete=cc-exp-year]')
-			.click({force:true})	
-			
-		cy.wrap($body)
-			.find('[autocomplete=cc-csc]')
-			.click({force:true})	
+		cy.iframeClick1e(this.PageObject.CC_YY_Editor_Box.E1)				
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-name]')	
-			.click({force:true})			
+		cy.iframeClick1e(this.PageObject.CC_CVC_Editor_Box.E1)				
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-number]').click({force:true})			
+		cy.iframeClick1e(this.PageObject.CC_Name_Editor_Box.E1)	
+		
+		cy.iframeClick1e(this.PageObject.CCNum_Editor_Box.E1)			
+				
+		cy.iframeClick1e(this.PageObject.CC_MM_Editor_Box.E1)	
 	
-		cy.wrap($body)
-			.find('[autocomplete=cc-exp-month]')
-			.click({force:true})
-	
-	
-	 })
-	 
-	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-	 	const $body = $iframe.contents().find('body') 		
-		
+		 	
 		//Verify Credit Card Number and Name Error Message shown
 		
-		cy.wrap($body)
-			.find('.b3id-card-number-input-error')
-			.should('have.text', this.TestVerify.Crtd_Crd_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')	
-			 
-		cy.wrap($body)
-			.find('.b3id-cardholder-name-input-error')
-			.should('have.text', this.TestVerify.Crtd_Name_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')		 
+		cy.iframeVerifyMsg(this.PageObject.CCnum_Editor_ErrMsg.E1,'NO_EL',this.TestVerify.Crtd_Crd_Er1)	
 		
-		cy.wrap($body)
-			.find('.b3id-card-month-input-error')
-			.should('have.text', this.TestVerify.Crtd_MM_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')		
-
-		cy.wrap($body)
-			.find('.b3id-card-year-input-error')
-			.should('have.text', this.TestVerify.Crtd_YY_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')					 
+		cy.iframeVerifyMsg(this.PageObject.CC_Nam_Editor_ErrMsg.E1,'NO_EL',this.TestVerify.Crtd_Name_Er1)	
 		
-		cy.wrap($body)
-			.find('.b3id-security-code-input-error')
-			.should('have.text', this.TestVerify.Crtd_CSV_Er1)
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'false')					 
+		cy.iframeVerifyMsg(this.PageObject.CC_MM_Editor_ErrMsg.E1,'NO_EL',this.TestVerify.Crtd_MM_Er1)	
 		
-	
+		cy.iframeVerifyMsg(this.PageObject.CC_YY_Editor_ErrMsg.E1,'NO_EL',this.TestVerify.Crtd_YY_Er1)	
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-number]').click({force:true})		
-	
+		cy.iframeVerifyMsg(this.PageObject.CC_CVC_Editor_ErrMsg.E1,'NO_EL',this.TestVerify.Crtd_CSV_Er1)	
+		
+		cy.iframeClick1e(this.PageObject.CCNum_Editor_Box.E1)
+		
+		
 	 })
 	 
 	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
@@ -264,77 +197,48 @@ describe('Google Store Checkout Form Test', function() {
 		const chk_Name_Address_Phone = this.profile.t_email + this.profile.t_name + ', ' + this.profile.t_address1 + ', ' + this.profile.t_address2 + ', ' + this.profile.t_City + ', ' + this.profile.t_addressSt_Shrt + ', ' + this.profile.t_zipcode + ', ' + this.profile.t_Phone
 		
 		
-		//After phone number typed in the form, verify the collaped form has the correct address 
-		cy.wrap($body)
-			//.find('[data-title=Name]')
-			.find('.b3id-collapsing-form-summary-text')
-			.should('have.text', chk_Name_Address_Phone)
+		//After phone number typed in the form, verify the collaped form has the correct address 	
+		
+		cy.iframeVerifyCpText(chk_Name_Address_Phone,this.PageObject.Name_Add_Summary_Box.E1)
+		
 
 		// Type in Credit Card information
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-number]')
-			.type(this.profile.t_Credit_Crd_N,{force:true})
-			.type('{enter}',{force:true})
+		cy.iframeTypeIn1e(this.profile.t_Credit_Crd_N,this.PageObject.CCNum_Editor_Box.E1,'EMF')
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-exp-month]')
-			.type(this.profile.t_Crd_data_M,{force:true})
-			
-		cy.wrap($body)
-			.find('[autocomplete=cc-exp-year]')
-			.type(this.profile.t_Crd_data_YY,{force:true})
-			
-		cy.wrap($body)
-			.find('[autocomplete=cc-csc]')
-			.type(this.profile.t_Crd_data_CVC,{force:true})
+		cy.iframeTypeIn1e(this.profile.t_Crd_data_M,this.PageObject.CC_MM_Editor_Box.E1)
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-name]')
-			.type(this.profile.t_name,{force:true})
+		cy.iframeTypeIn1e(this.profile.t_Crd_data_YY,this.PageObject.CC_YY_Editor_Box.E1)
 		
-		cy.wrap($body)
-			.find('[autocomplete=cc-number]').click({force:true})			
+		cy.iframeTypeIn1e(this.profile.t_Crd_data_CVC,this.PageObject.CC_CVC_Editor_Box.E1)
 		
-	 })
+		cy.iframeTypeIn1e(this.profile.t_name,this.PageObject.CC_Name_Editor_Box.E1)		
+					
+		cy.iframeClick1e(this.PageObject.CCNum_Editor_Box.E1)					
 	 
-	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
-		
-	 	const $body = $iframe.contents().find('body') 	
 	 
 	 // Since I am not using a valid credit card, not verify credit card number error message
-		//.find('.b3id-card-number-input-error')
-			// .and('have.attr', 'aria-hidden')
-		    // .and('equal', 'true')	
+	 
+		//cy.iframeVerifyMsgNotExist(this.PageObject.CCnum_Editor_ErrMsg.E1, 'NO_EL')				
+		
 	 
 	 //Verify Credit Card Name Error no longer Shown
-		cy.wrap($body)
-			.find('.b3id-cardholder-name-input-error')			
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')	
-	
+		cy.iframeVerifyMsgNotExist(this.PageObject.CC_Nam_Editor_ErrMsg.E1, 'NO_EL')					 
+		
 	// Verify all other Credit Card Information Error message no longer shown
 	
-		cy.wrap($body)
-			.find('.b3id-card-month-input-error')
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')		
-
-		cy.wrap($body)
-			.find('.b3id-card-year-input-error')
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')					 
+		cy.iframeVerifyMsgNotExist(this.PageObject.CC_MM_Editor_ErrMsg.E1, 'NO_EL')	
 		
-		cy.wrap($body)
-			.find('.b3id-security-code-input-error')
-			 .and('have.attr', 'aria-hidden')
-		     .and('equal', 'true')				 
+		cy.iframeVerifyMsgNotExist(this.PageObject.CC_YY_Editor_ErrMsg.E1, 'NO_EL')	
 
+		cy.iframeVerifyMsgNotExist(this.PageObject.CC_CVC_Editor_ErrMsg.E1, 'NO_EL')			
+		
+		
 	// Click Save Changes button
 
 	 cy.wrap($body)
-			.find('[data-button-type=2]')
-			.find('.goog-inline-block.jfk-button.jfk-button-action.b3-button.b3id-button.b3-ripple-container.b3-primary-button')
+			.find(this.PageObject.SaveConfirmButton.E1)
+			.find(this.PageObject.SaveConfirmButton.E2)
 			.should('have.text', this.TestVerify.Service_Label + this.TestVerify.SaveButton_Label)
 			.click({multiple:true,force:true})
 			 
