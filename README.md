@@ -15,5 +15,6 @@ And files in fixtures directory /fixtures/
 
 I have setup some environment variables in  ./cypress.json
 
-•	Notice the script has to impost wait time in order for the phone configuration to be selected correctly.
+*	Notice the script has to impost wait time in order for the phone configuration to be selected correctly.
 
+* Notice under the / integration / directory there are also 2 other scripts that I created when I started the project.  Those are partial script that I created as part of this project for debug and learning.
