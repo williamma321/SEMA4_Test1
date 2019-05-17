@@ -9,7 +9,9 @@
   "Service_Skip_Text" : "Skip",
   "ConfirmOrderPage_AddToCart" : ".cta-button-container > .mdc-button",
   "AddToCart_Text" : "Add to cart",
-  "Assessories_Page_AddToCartBt" : ":nth-child(8) > .nav-link > .highlightable",
+  "GoTOCart_Text": "Go to cart",
+  "Assessories_Page_AddToCartBt" : "[jsaction=\"JIbuQc:IXVHne\"] > .mdc-button",
+  "Assessories_Page_AddToCartBt_Class" : ".interstitial-header",
   "CheckoutConfirmTxt" : ".cart-button-text",
   "Guest_Checkout_Txt" : "Guest Checkout"  
 }
