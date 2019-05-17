@@ -1,4 +1,4 @@
-/// <reference types="Cypress" />
+///<reference types="Cypress" />
 
 describe('Sema4 Test 1', function() {
 	beforeEach(function() {
@@ -39,11 +39,11 @@ describe('Sema4 Test 1', function() {
 	
 	cy.get(this.ShopPageObject.Search_Result_Wrap).contains(this.Shopitem.name).click({force:true})	 
 	
-	cy.wait(Wait5K)	
+	cy.wait(Wait3K)	
 	
-	cy.get(this.ShopPageObject.Buy_Now_top_Bar,{timeout:Wait10K}).contains(this.ShopPageObject.TopBuy_Text).click()
+	cy.get(this.ShopPageObject.Buy_Now_top_Bar,{timeout:Wait10K}).contains(this.ShopPageObject.TopBuy_Text).click({force:true})
 		
-	cy.wait(Wait5K)
+	cy.wait(Wait10K)
 	
 	cy.SelectPixelType(this.Shopitem.Phtype)	
 	
@@ -71,12 +71,14 @@ describe('Sema4 Test 1', function() {
 	
 	cy.wait(Wait3K)
 	
-	cy.get(this.ShopPageObject.Assessories_Page_AddToCartBt).click()
+	cy.get(this.ShopPageObject.Assessories_Page_AddToCartBt_Class)
+	.contains(this.ShopPageObject.GoTOCart_Text).click()
 	
 	cy.get(this.ShopPageObject.CheckoutConfirmTxt)
 	 .contains(this.ShopPageObject.Guest_Checkout_Txt)
 	 .click({force:true})		 
 	
+	cy.wait(Wait10K)
 	cy.wait(Wait5K)
 	
 	// The following is the actual test to verify the editor box and its error messages
