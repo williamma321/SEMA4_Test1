@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "email_Er1": "Contact email address is a required field",
+  "email_Er2": "Verify email address is a required field",
+  "Name_Er1": "Name is required",
+  "Address_Er1": "Address line 1 is required",  
+  "Address_Er_City": "City is required",
+  "ZipCode_Er1":   "ZIP code is required",
+  "Phone_Er1": "This field is required",
+  "Crtd_Crd_Er1":  "Card number is required",
+  "Crtd_Name_Er1": "Cardholder name is required",
+  "Crtd_MM_Er1" : "Month is required",
+  "Crtd_YY_Er1" : "Year is required",
+  "Crtd_CSV_Er1": "CVC is required",
+  "Service_Label": "CONFIRM PURCHASE",
+  "SaveButton_Label": "Save changes"
+}

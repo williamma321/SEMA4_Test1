@@ -1,99 +1,41 @@
-///<reference types="Cypress" />
+/// <reference types="Cypress" />
 
-describe('Sema4 Test 1', function() {
-	beforeEach(function() {
+describe('Google Store Checkout Form Test', function() {
+  it('Test Error filling the Checkout Form', function() {
+     
+	 // Load Environment Variable
 	 
-	
-// Setup the fixture files	
-		cy.fixture('Shopitems').as('Shopitem')
-		cy.fixture("profile.json").as("profile")
-		cy.fixture("Verify.json").as("TestVerify")
-		cy.fixture("CheckoutFormPgObj.json").as("PageObject")
-		cy.fixture("PageObject.json").as("ShopPageObject")
-		
-	})		
+	 const Wait3K = Cypress.env("Page_Short_Wait")
+	 const Wait5K = Cypress.env("Page_Med_Wait")
+	 const Wait10K = Cypress.env("Page_Long_Wait")
+	 const TestSite = Cypress.env("TestURL")
+	 
+	 // Load Fixture for test data
+	 
+	 cy.fixture("profile.json").as("profile")
+	 cy.fixture("Verify.json").as("TestVerify")
+	 cy.fixture("CheckoutFormPgObj.json").as("PageObject")
 
+	cy.visit(TestSite)		
+	
+	cy.get(':nth-child(8) > .nav-link > .highlightable').click()
 
-	//The first part is the script 'Shoppoing_Cart_Setup.js' which is to setup the shopping cart
-	// Notice I have to force wait time which can be adjust in the environment file
-	// For some reason Google Store must wait about 3 seconds at least from what I saw when selecting Pixel Phone configurations
-	
-  it('Setup Google Store Shopping Cart', function() {
-	
-	// Setup the environment variables  	
-	 const Wait1K = Cypress.env('Page_Shorter_Wait')
-	 const Wait3K = Cypress.env('Page_Short_Wait')
-	 const Wait5K = Cypress.env('Page_Med_Wait')
-	 const Wait10K = Cypress.env('Page_Long_Wait')
-	 const TestSite = Cypress.env('TestURL')
-
-    cy.visit(TestSite)		
-	
-	cy.get(this.ShopPageObject.SearchIconBt).click()
-		 
-	cy.get(this.ShopPageObject.SearchItemEditor_Box).type(this.Shopitem.name+"{ENTER}",{force:true})
-	
-	cy.get(this.ShopPageObject.SearchItemResult_Container)
-	
-	cy.wait(Wait5K)
-	
-	cy.get(this.ShopPageObject.Search_Result_Wrap).contains(this.Shopitem.name).click({force:true})	 
-	
 	cy.wait(Wait3K)	
-	
-	cy.get(this.ShopPageObject.Buy_Now_top_Bar,{timeout:Wait10K}).contains(this.ShopPageObject.TopBuy_Text).click({force:true})
 		
-	cy.wait(Wait10K)
-	
-	cy.SelectPixelType(this.Shopitem.Phtype)	
+	cy.get('.cart-button-text').contains('Guest Checkout').click({force:true})		
 	
 	cy.wait(Wait5K)
-    	
-	cy.SelectCarrerType(this.Shopitem.Carrier)
 	
-	cy.wait(Wait3K)
-	
-	cy.SelectPhColor(this.Shopitem.Color)
-	
-	cy.wait(Wait3K)
-	
-	cy.SelectPhStorage(this.Shopitem.Memory)	
-	
-	cy.wait(Wait3K)
-	
-	cy.get(this.ShopPageObject.Service_SelectPage_SkipLink)
-	.contains(this.ShopPageObject.Service_Skip_Text).click()
+	cy.get('content > :nth-child(3)').click()	
 
-	cy.wait(Wait3K)
-	
-	cy.get(this.ShopPageObject.ConfirmOrderPage_AddToCart)
-	.contains(this.ShopPageObject.AddToCart_Text).click()
-	
-	cy.wait(Wait3K)
-	
-	cy.get(this.ShopPageObject.Assessories_Page_AddToCartBt_Class)
-	.contains(this.ShopPageObject.GoTOCart_Text).click()
-	
-	cy.get(this.ShopPageObject.CheckoutConfirmTxt)
-	 .contains(this.ShopPageObject.Guest_Checkout_Txt)
-	 .click({force:true})		 
-	
-	cy.wait(Wait10K)
-	cy.wait(Wait5K)
-	
-	// The following is the actual test to verify the editor box and its error messages
 	// Cypress not support iframe form
 	//  All call within the check out form will yield by $iframe
 	
-     cy.get(this.PageObject.iframeParentID).then($iframe => {	 
+     cy.get('#paymentsParentDivIdIframe').then($iframe => {	 
 		
 		 
 		// Click on Verify email Address editor box to enable error message
 		cy.iframeClick(this.PageObject.Confirm_email_add_editor_Box.E1, this.PageObject.Confirm_email_add_editor_Box.E2) 
-		
-		cy.wait(Wait1K)
-		
-		cy.iframeClick(this.PageObject.Name_editor_Box.E1, this.PageObject.Name_editor_Box.E2,'M')
 	
 		// Verify require email address message
 		cy.iframeVerifyMsg(this.PageObject.email_add_editor_ErrMsg.E1,this.PageObject.email_add_editor_ErrMsg.E2,this.TestVerify.email_Er1)		
@@ -157,11 +99,7 @@ describe('Sema4 Test 1', function() {
 		
 		cy.iframeClick(this.PageObject.ZipCode_Editor_Box.E1,this.PageObject.ZipCode_Editor_Box.E2,'M')
 		
-		cy.wait(Wait1K)
-		
 		cy.iframeClick(this.PageObject.City_Editor_Box.E1,this.PageObject.City_Editor_Box.E2,'M')
-		
-		cy.wait(Wait1K)
 		
 		cy.iframeClick(this.PageObject.Addrs_Line2_Editor_Box.E1,this.PageObject.Addrs_Line2_Editor_Box.E2,'M')	
 		
@@ -221,16 +159,10 @@ describe('Sema4 Test 1', function() {
 		cy.iframeClick1e(this.PageObject.CC_Name_Editor_Box.E1)		
 		
 		cy.iframeClick1e(this.PageObject.CCNum_Editor_Box.E1)		
-		
-		cy.wait(Wait1K)
 				
 		cy.iframeClick1e(this.PageObject.CC_MM_Editor_Box.E1)	
-		
-		cy.wait(Wait3K)
 
 		cy.iframeClick1e(this.PageObject.CC_YY_Editor_Box.E1)				
-		
-		cy.wait(Wait3K)
 		
 		cy.iframeClick1e(this.PageObject.CC_CVC_Editor_Box.E1)				
 		
@@ -258,7 +190,7 @@ describe('Sema4 Test 1', function() {
 		
 	 })
 	 
-	 cy.get(this.PageObject.iframeParentID).then($iframe => {
+	 cy.get('#paymentsParentDivIdIframe').then($iframe => {
 		
 	 	const $body = $iframe.contents().find('body') 		
 		
@@ -313,7 +245,7 @@ describe('Sema4 Test 1', function() {
 	 })
 	
   })
-  
-  
 })
+
+
 

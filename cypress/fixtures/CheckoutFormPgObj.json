@@ -1,0 +1,141 @@
+{
+  "Name": "Google Store Checkout Form",  
+  "iframeParentID" : "#paymentsParentDivIdIframe",
+  "email_add_editor_Box": 
+	{
+		"E1" : "[data-name=ContactEmailField]",
+		"E2" : "[name=ContactEmailField]"
+    },
+  "email_add_editor_ErrMsg": 
+	{
+		"E1" : "[data-name=ContactEmailField]",
+		"E2" : ".b3id-input-error"
+    },
+   "Confirm_email_add_editor_Box": 
+	{
+		"E1" : "[data-name=ContactEmailConfirm]",
+		"E2" : "[name=ContactEmailConfirm]"
+    },
+  "Confirm_email_add_editor_ErrMsg": 
+	{
+		"E1" : "[data-name=ContactEmailConfirm]",
+		"E2" : ".b3id-input-error"
+    },
+  "Email_completed_Summary_form":
+	{
+		"E1" : ".b3-collapsing-form-summary-text"	
+	},
+  "Name_editor_Box": 
+	{
+		"E1" : "[data-name=RECIPIENT]",
+		"E2" : "[autocomplete=name]"
+    },
+  "Name_editor_ErrMsg": 
+	{
+		"E1" : "[data-name=RECIPIENT]",
+		"E2" : ".b3-address-edit-error-message"
+    },
+  "Addrs_Line1_Editor_Box": 
+	{
+		"E1" : "[data-name=ADDRESS_LINE_1]", 
+		"E2" : "[autocomplete=off-street-address]"
+    },
+  "Addrs_Line1_Editor__ErrMsg": 
+	{
+		"E1" : "[data-name=ADDRESS_LINE_1]",
+		"E2" : ".b3-address-edit-error-message"
+    },
+  "Addrs_Line2_Editor_Box": 
+	{
+		"E1" : "[data-name=ADDRESS_LINE_2]", 
+		"E2" : "[autocomplete=address-line2]"
+    }
+	,
+  "City_Editor_Box": 
+	{
+		"E1" : "[data-name=LOCALITY]", 
+		"E2" : "[autocomplete=address-level2]"
+    },
+  "City_Editor_ErrMsg": 
+	{
+		"E1" : "[data-name=LOCALITY]",
+		"E2" : ".b3-address-edit-error-message"
+    },
+  "State_Drop_Box": 
+	{
+		"E1" : "[data-name=ADMIN_AREA]",
+		"E2" : ".goog-flat-menu-button-dropdown",
+		"E3" : ".goog-flat-menu-button-open"
+    },
+	
+  "ZipCode_Editor_Box": 
+	{
+		"E1" : "[data-name=POSTAL_CODE]", 
+		"E2" : "[autocomplete=postal-code]"
+    },
+  "ZipCode_Editor_ErrMsg": 
+	{
+		"E1" : "[data-name=POSTAL_CODE]",
+		"E2" : ".b3-address-edit-error-message"
+    },
+  "PhoneNum_Editor_Box": 
+	{
+		"E1" : "[data-name=PHONE_NUMBER]", 
+		"E2" : "[autocomplete=tel]"
+    },
+  "PhoneNum_Editor_ErrMsg": 
+	{
+		"E1" : "[data-name=PHONE_NUMBER]",
+		"E2" : ".b3-address-edit-error-message"
+    },
+   "Name_Add_Summary_Box":
+   {
+		"E1" : ".b3id-collapsing-form-summary-text"
+   },   
+   "CCNum_Editor_Box": 
+	{
+		"E1" : "[autocomplete=cc-number]"
+    },
+  "CCnum_Editor_ErrMsg": 
+	{
+		"E1" : ".b3id-card-number-input-error"		
+    },
+  "CC_MM_Editor_Box": 
+	{
+		"E1" : "[autocomplete=cc-exp-month]"		
+    },
+  "CC_MM_Editor_ErrMsg": 
+	{
+		"E1" : ".b3id-card-month-input-error"		
+    },
+  "CC_YY_Editor_Box": 
+	{
+		"E1" : "[autocomplete=cc-exp-year]" 		
+    },
+  "CC_YY_Editor_ErrMsg": 
+	{
+		"E1" : ".b3id-card-year-input-error"		
+    },
+  "CC_CVC_Editor_Box": 
+	{
+		"E1" : "[autocomplete=cc-csc]"		
+    },
+  "CC_CVC_Editor_ErrMsg":
+	{
+		"E1" : ".b3id-security-code-input-error"		
+    },
+   "CC_Name_Editor_Box": 
+	{
+		"E1" : "[autocomplete=cc-name]"
+    },
+  "CC_Nam_Editor_ErrMsg": 
+	{
+		"E1" : ".b3id-cardholder-name-input-error"
+    },
+  "SaveConfirmButton":
+	{
+		"E1" : "[data-button-type=2]",
+		"E2" :  ".goog-inline-block.jfk-button.jfk-button-action.b3-button.b3id-button.b3-ripple-container.b3-primary-button"
+	}	
+ 
+}
